@@ -216,7 +216,7 @@ error_out:
 
 void __attribute__((noreturn)) arch_cpu_activate_vmm(void)
 {
-	vcpu_activate_vmm(this_cpu_data());
+	vcpu_activate_vmm();
 }
 
 void arch_cpu_restore(unsigned int cpu_id, int return_code)
