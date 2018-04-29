@@ -21,10 +21,6 @@
 #include <asm/irqchip.h>
 #include <asm/spinlock.h>
 
-/* Round up sizeof(struct per_cpu) to the next power of two. */
-#define PERCPU_SIZE_SHIFT \
-        (BITS_PER_LONG - __builtin_clzl(sizeof(struct per_cpu) - 1))
-
 struct per_cpu {
 	u8 stack[PAGE_SIZE];
 
@@ -103,7 +99,7 @@ static inline struct per_cpu *per_cpu(unsigned int cpu)
 {
 	extern u8 __page_pool[];
 
-	return (struct per_cpu *)(__page_pool + (cpu << PERCPU_SIZE_SHIFT));
+	return (struct per_cpu *)(__page_pool + cpu * sizeof(struct per_cpu));
 }
 
 static inline struct registers *guest_regs(struct per_cpu *cpu_data)
