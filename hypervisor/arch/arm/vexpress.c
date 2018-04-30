@@ -46,8 +46,8 @@ sysregs_access_handler(void *arg, struct mmio_access *mmio)
 		spin_lock(&target_data->control_lock);
 
 		if (target_data->wait_for_poweron) {
-			target_data->cpu_on_entry = mmio->value;
-			target_data->cpu_on_context = 0;
+			target_data->public.cpu_on_entry = mmio->value;
+			target_data->public.cpu_on_context = 0;
 			target_data->reset = true;
 		}
 
@@ -71,8 +71,8 @@ static void vexpress_cell_exit(struct cell *cell)
 	unsigned int cpu;
 
 	for_each_cpu(cpu, cell->cpu_set) {
-		per_cpu(cpu)->cpu_on_entry = root_entry;
-		per_cpu(cpu)->cpu_on_context = 0;
+		public_per_cpu(cpu)->cpu_on_entry = root_entry;
+		public_per_cpu(cpu)->cpu_on_context = 0;
 		arch_suspend_cpu(cpu);
 		arch_reset_cpu(cpu);
 	}
