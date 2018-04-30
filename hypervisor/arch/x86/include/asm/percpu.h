@@ -15,20 +15,13 @@
 #ifndef _JAILHOUSE_ASM_PERCPU_H
 #define _JAILHOUSE_ASM_PERCPU_H
 
-#include <jailhouse/types.h>
-#include <asm/paging.h>
-#include <asm/processor.h>
+#include <jailhouse/cell.h>
+#include <asm/svm.h>
+#include <asm/vmx.h>
 
 #define NUM_ENTRY_REGS			6
 
 #define STACK_SIZE			PAGE_SIZE
-
-#ifndef __ASSEMBLY__
-
-#include <jailhouse/cell.h>
-#include <asm/spinlock.h>
-#include <asm/svm.h>
-#include <asm/vmx.h>
 
 /**
  * @defgroup Per-CPU Per-CPU Subsystem
@@ -214,7 +207,5 @@ static inline struct per_cpu *per_cpu(unsigned int cpu)
 }
 
 /** @} **/
-
-#endif /* !__ASSEMBLY__ */
 
 #endif /* !_JAILHOUSE_ASM_PERCPU_H */
