@@ -31,14 +31,14 @@ static unsigned int vexpress_mmio_count_regions(struct cell *cell)
 static enum mmio_result
 sysregs_access_handler(void *arg, struct mmio_access *mmio)
 {
-	struct per_cpu *target_data, *cpu_data = this_cpu_data();
+	struct per_cpu *target_data;
 	unsigned int cpu;
 
 	if (mmio->address != VEXPRESS_FLAGSSET || !mmio->is_write)
 		/* Ignore all other accesses */
 		return MMIO_HANDLED;
 
-	for_each_cpu_except(cpu, cpu_data->cell->cpu_set, cpu_data->cpu_id) {
+	for_each_cpu_except(cpu, this_cell()->cpu_set, this_cpu_id()) {
 		target_data = per_cpu(cpu);
 
 		arch_suspend_cpu(cpu);
